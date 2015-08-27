@@ -88,7 +88,7 @@ function SlowReporter(runner) {
 
         // TODO: check runner to inspect options or args
         // T.toString();
-        console.log(JSON.stringify(T));
+        console.log(JSON.stringify(T, null, 2));
 
         process.exit(0);
     });
