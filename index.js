@@ -27,7 +27,7 @@ Tree.prototype.addTest = function (titles, test) {
 Tree.prototype.toString = function (indent) {
     indent = indent || '';
 
-    console.log('%d ㎳\t%s%s', this.duration, indent, this.title)
+    console.log('%d ㎳\t%s%s', this.duration, indent, this.title);
 
     var children = Object.keys(this._children),
         that = this;
@@ -59,8 +59,6 @@ Tree.prototype.__defineGetter__('length', function () {
 
 function SlowReporter(runner) {
     var doneTests = [];
-    var jsonReportFileName = '/tmp/mocha-slow-report.json';
-
 
     function getParentTitles(t) {
         var parentTitles = [],
@@ -87,8 +85,11 @@ function SlowReporter(runner) {
 
     runner.on('end', function(){
         //process.stdout.write('\r');
-        T.toString();
-        require('fs').writeFileSync(jsonReportFileName, JSON.stringify(T), 'utf8');
+
+        // TODO: check runner to inspect options or args
+        // T.toString();
+        console.log(JSON.stringify(T));
+
         process.exit(0);
     });
 }
