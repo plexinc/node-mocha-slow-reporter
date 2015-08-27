@@ -59,6 +59,8 @@ Tree.prototype.__defineGetter__('length', function () {
 
 function SlowReporter(runner) {
     var doneTests = [];
+    var jsonReportFileName = '/tmp/mocha-slow-report.json';
+
 
     function getParentTitles(t) {
         var parentTitles = [],
@@ -86,6 +88,7 @@ function SlowReporter(runner) {
     runner.on('end', function(){
         //process.stdout.write('\r');
         T.toString();
+        require('fs').writeFileSync(jsonReportFileName, JSON.stringify(T), 'utf8');
         process.exit(0);
     });
 }
