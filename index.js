@@ -1,10 +1,15 @@
-function Tree(title, duration) {
+function Tree(title, duration, state) {
     this.title = title;
     this._children = {};
 
     if (duration !== undefined) {
         this._duration = duration;
     }
+
+    if (state !== undefined) {
+        this._state = state;
+    }
+
 }
 
 Tree.prototype.addTest = function (titles, test) {
@@ -12,7 +17,7 @@ Tree.prototype.addTest = function (titles, test) {
 
     // Add a leaf
     if (titles.length === 0) {
-        this._children[test.title] = new Tree(test.title, test.duration);
+        this._children[test.title] = new Tree(test.title, test.duration, test.state);
         return;
     }
 
@@ -29,6 +34,9 @@ Tree.prototype.toJSON = function () {
     title: this.title,
     duration: this.duration
   };
+  if (this.hasOwnProperty('_state')) {
+    res.state = this._state;
+  }
   if (Object.keys(this._children).length > 0) {
     res.children = this._children;
   }
