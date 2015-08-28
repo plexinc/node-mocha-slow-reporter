@@ -24,6 +24,17 @@ Tree.prototype.addTest = function (titles, test) {
     this._children[title].addTest(titles, test);
 }
 
+Tree.prototype.toJSON = function () {
+  var res = {
+    title: this.title,
+    duration: this.duration
+  };
+  if (Object.keys(this._children).length > 0) {
+    res.children = this._children;
+  }
+  return res;
+}
+
 Tree.prototype.toString = function (indent) {
     indent = indent || '';
 
@@ -57,7 +68,7 @@ Tree.prototype.__defineGetter__('length', function () {
         .reduce(function (prev, cur) { return prev + cur; }, 0);
 });
 
-function SlowReporter(runner) {
+function SlowReporter(runner, options) {
     var doneTests = [];
 
     function getParentTitles(t) {
@@ -86,9 +97,12 @@ function SlowReporter(runner) {
     runner.on('end', function(){
         //process.stdout.write('\r');
 
-        // TODO: check runner to inspect options or args
-        // T.toString();
-        console.log(JSON.stringify(T, null, 2));
+        if (options && options.reporterOptions && options.reporterOptions.json)
+        {
+            console.log(JSON.stringify(T, null, 2));
+        } else {
+            T.toString();
+        }
 
         process.exit(0);
     });
